@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const connectDB = require('./config/dbConfig');
 const { errorHandler } = require('./middlewares/error');
+const helmet = require('helmet');
 
 const moviesRoutes = require('./routes/movies');
 const seriesRoutes = require('./routes/series');
@@ -25,7 +26,13 @@ app.use(bodyParser.json());
 // CORS
 app.use(cors());
 
+// Helmet
+app.use(helmet())
+
 // Routes
+app.get('/', (req, res, next) => {
+  res.send('Welcome to the Filmseeker API');
+})
 app.use('/api/movies', moviesRoutes);
 app.use('/api/series', seriesRoutes);
 app.use('/api/auth', authRoutes);
