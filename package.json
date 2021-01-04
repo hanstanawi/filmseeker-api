@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A REST API for Filmseeker Webapp",
   "main": "app.js",
+  "engines": {
+    "node": "12.16.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
