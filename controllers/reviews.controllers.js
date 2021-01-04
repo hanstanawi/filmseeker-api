@@ -58,7 +58,36 @@ exports.addReview = async (req, res, next) => {
  * @method update
  * @access private
  */
-exports.updateReview = (req, res, next) => {
+exports.updateReview = async (req, res, next) => {
+  const { reviewId } = req.params;
+  const { title, rating, content, itemId } = req.body;
+  try {
+    const review = await Review.findById(reviewId);
+    if (!review) {
+      const error = new Error('Could not find the post');
+      error.statusCode = 404;
+      throw error;
+    }
+    if (review.userId.toString() !== req.userId) {
+      const error = new Error('Not authenticated');
+      error.statusCode = 403;
+      throw error;
+    }
+    review.title = title;
+    review.content = content;
+    review.rating = rating;
+    review.itemId = itemId;
+    const updatedReview = await review.save();
+    res.status(200).json({
+      message: 'Post updated succesfully',
+      post: updatedReview,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
 
 }
 

@@ -170,7 +170,7 @@ exports.getMovieDetails = async (req, res, next) => {
 }
 
 /**
- * @description Get Movie Details
+ * @description Search Movies
  * @method get
  * @access public
  */

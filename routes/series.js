@@ -8,6 +8,8 @@ router.get('/popular', seriesController.popularSeries);
 
 router.get('/top-rated', seriesController.topRatedSeries);
 
+router.get('/search', seriesController.seriesSearch);
+
 router.get('/:id', seriesController.getSeriesDetails);
 
 module.exports = router;

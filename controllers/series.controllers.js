@@ -139,3 +139,38 @@ exports.getSeriesDetails = async (req, res, next) => {
     next(err);
   }
 }
+
+/**
+ * @description Search Series
+ * @method get
+ * @access public
+ */
+exports.seriesSearch = async (req, res, next) => {
+  const searchQuery = req.query.query || '';
+  try {
+    if (!searchQuery.length > 0) {
+      const error = new Error('No query provided');
+      error.statusCode = 404;
+      throw error;
+    }
+    const series = await apiClient.get(`/search/tv/?api_key=${process.env.API_KEY}&language=en-US&query=${searchQuery}&page=1&include_adult=false`);
+
+    const seriesResult = series.data.results.map((series) => {
+      return {
+        ...series,
+        poster_path: `${process.env.TMDB_POSTER}${series.poster_path}`,
+        backdrop_path: `${process.env.TMDB_BACKDROP}${series.backdrop_path}`,
+      }
+    });
+
+    res.status(200).json({
+      message: 'Search Result Fetched Successfully',
+      series: seriesResult,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+}
