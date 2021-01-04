@@ -55,7 +55,7 @@ exports.addReview = async (req, res, next) => {
 
 /**
  * @description Delete Review
- * @method update
+ * @method put
  * @access private
  */
 exports.updateReview = async (req, res, next) => {
